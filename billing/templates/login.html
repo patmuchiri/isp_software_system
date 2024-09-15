@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ISP Software System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/scripts.js' %}" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <a href="{% url 'landing' %}">Home</a>
+        <a href="{% url 'login' %}">Login</a>
+    </aside>
+
+    <div class="main-content">
+        <header class="header">
+            <nav>
+                <h1>ISP Software System</h1>
+                <a href="{% url 'landing' %}">Home</a>
+            </nav>
+        </header>
+
+        <div class="login-container">
+            <h2>Login to ISP Software System</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

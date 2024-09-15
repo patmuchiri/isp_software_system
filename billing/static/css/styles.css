@@ -1,0 +1,125 @@
+/* styles.css */
+
+/* General styles for the body */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-image: url("/static/images/background.jpg");
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Keep the background fixed during scroll */
+}
+
+/* General styles for the sidebar */
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+.sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+    text-decoration: underline;
+}
+
+/* General styles for the header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 250px;
+    width: calc(100% - 250px);
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+/* Styles for the main content */
+.main-content {
+    margin-left: 250px; /* Ensure content does not overlap sidebar */
+    padding: 20px;
+}
+
+/* Styles for the intro section */
+.intro {
+    margin-top: 60px; /* Ensure content is below the fixed header */
+}
+
+.intro h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.intro p {
+    font-size: 1.2em;
+}
+
+/* Styles for the login page */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto; /* Center the container vertically */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.login-container h2 {
+    margin-top: 0;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; /* Blue background */
+    color: #fff;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

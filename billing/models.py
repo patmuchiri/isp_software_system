@@ -1,4 +1,7 @@
+# billing/models.py
+
 from django.db import models
+from django.contrib.auth.models import User
 
 class SubscriptionPlan(models.Model):
     name = models.CharField(max_length=100)
@@ -30,3 +33,12 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f'{self.client.name} - {self.start_date} to {self.end_date}'
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    email_address = models.EmailField()
+
+    def __str__(self):
+        return self.full_name
