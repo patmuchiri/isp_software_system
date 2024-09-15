@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django import forms
-from .models import Client, SubscriptionPlan, Subscription
+from .models import Client, SubscriptionPlan
 from django.contrib import messages
+from .mikrotik_api import MikroTikAPI
+
+# MikroTik credentials
+MIKROTIK_IP = '102.215.32.180'
+MIKROTIK_USERNAME = 'admin'
+MIKROTIK_PASSWORD = 'jishindeushinde#@2024'
 
 # Form for user registration
 class UserRegistrationForm(forms.ModelForm):
@@ -36,7 +41,6 @@ class ClientRegistrationForm(forms.ModelForm):
 
     def save(self, commit=True):
         client = super().save(commit=False)
-        # Get or create subscription plan with specified speeds and price
         upload_speed = self.cleaned_data.get('upload_speed')
         download_speed = self.cleaned_data.get('download_speed')
         price = self.cleaned_data.get('price')
@@ -53,6 +57,15 @@ class ClientRegistrationForm(forms.ModelForm):
 
         if commit:
             client.save()
+
+            # Activate client in MikroTik
+            api = MikroTikAPI(
+                host=MIKROTIK_IP,
+                username=MIKROTIK_USERNAME,
+                password=MIKROTIK_PASSWORD
+            )
+            api.add_queue(client.static_ip, upload_speed, download_speed)
+
         return client
 
 def landing(request):
@@ -128,6 +141,14 @@ def edit_client(request, client_id):
 def delete_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
     if request.method == 'POST':
+        # Remove client from MikroTik
+        api = MikroTikAPI(
+            host=MIKROTIK_IP,
+            username=MIKROTIK_USERNAME,
+            password=MIKROTIK_PASSWORD
+        )
+        api.remove_queue(client.static_ip)
+
         client.delete()
         messages.success(request, 'Client deleted successfully.')
         return redirect('user_home')

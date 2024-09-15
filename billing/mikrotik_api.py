@@ -1,0 +1,76 @@
+import routeros_api
+
+class MikroTikAPI:
+    def __init__(self):
+        # MikroTik credentials
+        self.host = "102.215.32.180"
+        self.username = "admin"
+        self.password = "jishindeushinde#@2024"
+        self.port = 8728
+        self.connection = None
+
+    def connect(self):
+        """
+        Connect to the MikroTik router using the provided credentials.
+        """
+        try:
+            connection = routeros_api.RouterOsApiPool(
+                self.host, 
+                username=self.username, 
+                password=self.password, 
+                port=self.port, 
+                plaintext_login=True
+            )
+            self.connection = connection.get_api()
+            print("Connected to MikroTik Router")
+        except Exception as e:
+            print(f"Failed to connect to MikroTik Router: {e}")
+
+    def disconnect(self):
+        """
+        Disconnect from the MikroTik router.
+        """
+        if self.connection:
+            self.connection.close()
+
+    def add_queue(self, static_ip, upload_speed, download_speed):
+        """
+        Add a queue for a client with the given static IP and bandwidth limits (in Mbps).
+        """
+        try:
+            self.connect()
+            api = self.connection
+            upload_speed_kbps = int(float(upload_speed) * 1024)  # Convert Mbps to Kbps
+            download_speed_kbps = int(float(download_speed) * 1024)  # Convert Mbps to Kbps
+
+            # Add the queue to the MikroTik router
+            api.get_resource('/queue/simple').add(
+                name=f"client_{static_ip}",
+                target=static_ip,
+                max_limit=f"{upload_speed_kbps}K/{download_speed_kbps}K"
+            )
+            print(f"Queue added for {static_ip} with {upload_speed} Mbps upload and {download_speed} Mbps download.")
+        except Exception as e:
+            print(f"Failed to add queue: {e}")
+        finally:
+            self.disconnect()
+
+    def remove_queue(self, static_ip):
+        """
+        Remove a queue for a client with the given static IP.
+        """
+        try:
+            self.connect()
+            api = self.connection
+
+            # Find and remove the queue associated with the client's static IP
+            queues = api.get_resource('/queue/simple')
+            queue_list = queues.get(target=static_ip)
+            for queue in queue_list:
+                queues.remove(id=queue['id'])
+            print(f"Queue removed for {static_ip}")
+        except Exception as e:
+            print(f"Failed to remove queue: {e}")
+        finally:
+            self.disconnect()
+
