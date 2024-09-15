@@ -3,39 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ISP Software System</title>
+    <title>Login</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src="{% static 'js/scripts.js' %}" defer></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Updated font */
+            background-color: #e0f7fa; /* Light sky blue background */
+            margin: 0;
+            padding: 0;
+            position: relative; /* Required for positioning the button */
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto; /* Increased margin for centering */
+            padding: 30px; /* Increased padding */
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em; /* Larger heading */
+            color: #0277bd; /* Sky blue color */
+            margin-bottom: 20px; /* Increased margin */
+        }
+        .form-group {
+            margin-bottom: 20px; /* Increased spacing */
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px; /* Increased margin */
+            font-size: 1.1em; /* Larger font size for labels */
+            color: #333; /* Darker color for better contrast */
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px; /* Increased padding */
+            border: 1px solid #ddd;
+            border-radius: 6px; /* Slightly more rounded corners */
+            font-size: 1em; /* Larger font size for input text */
+            color: #333; /* Darker text color for readability */
+        }
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0288d1; /* Darker sky blue */
+            border: none;
+            color: #fff;
+            border-radius: 6px; /* Slightly more rounded corners */
+            font-size: 1.1em; /* Larger font size for button text */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-group button:hover {
+            background-color: #0277bd; /* Slightly darker on hover */
+        }
+        .error-message {
+            color: #f44336; /* Red color for errors */
+            font-size: 1em; /* Increased font size for visibility */
+            margin-bottom: 20px; /* Increased spacing */
+        }
+        .home-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff5722; /* Bright orange */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #e64a19; /* Darker orange on hover */
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-    <aside class="sidebar">
-        <h2>Menu</h2>
-        <a href="{% url 'landing' %}">Home</a>
-        <a href="{% url 'login' %}">Login</a>
-    </aside>
-
-    <div class="main-content">
-        <header class="header">
-            <nav>
-                <h1>ISP Software System</h1>
-                <a href="{% url 'landing' %}">Home</a>
-            </nav>
-        </header>
-
-        <div class="login-container">
-            <h2>Login to ISP Software System</h2>
-            <form method="POST">
-                {% csrf_token %}
+    <div class="login-container">
+        <h1>Login</h1>
+        {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
-
+            </div>
+            <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
-
+            </div>
+            <div class="form-group">
                 <button type="submit">Login</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+    <a href="{% url 'landing' %}" class="home-button">Home</a>
 </body>
 </html>

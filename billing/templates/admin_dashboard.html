@@ -9,15 +9,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e0f7fa; /* Light sky blue */
+            background: url("{% static 'images/admin.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 0;
+            position: relative; /* Required for absolute positioning */
         }
         .container {
             width: 90%;
             margin: 20px auto;
             padding: 20px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
@@ -75,6 +77,11 @@
             flex: 1 1 30%;
             margin: 10px;
         }
+        .logout-btn-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
         footer {
             text-align: center;
             margin-top: 20px;
@@ -98,10 +105,19 @@
                 <h2>View All Clients</h2>
                 <a href="{% url 'view_clients' %}" class="btn btn-red">View Clients</a>
             </div>
+            <div class="card">
+                <h2>View All Users</h2>
+                <a href="{% url 'view_users' %}" class="btn btn-green">View Users</a>
+            </div>
+        </div>
+        <!-- Logout Button -->
+        <div class="logout-btn-container">
+            <a href="{% url 'logout' %}" class="btn btn-red">Logout</a>
         </div>
         <footer>
-            <p>&copy; 2024 Phenom Ventures Ltd</p>
+            <p>&copy; 2024 Patrick Muchiri</p>
         </footer>
     </div>
 </body>
 </html>
+

@@ -1,16 +1,14 @@
-# billing/models.py
-
 from django.db import models
 from django.contrib.auth.models import User
 
 class SubscriptionPlan(models.Model):
     name = models.CharField(max_length=100)
-    upload_speed = models.DecimalField(max_digits=5, decimal_places=2)  # Mbps
-    download_speed = models.DecimalField(max_digits=5, decimal_places=2)  # Mbps
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # Price in local currency
+    upload_speed = models.DecimalField(max_digits=5, decimal_places=2, help_text="Upload speed (Mbps)")  # Mbps
+    download_speed = models.DecimalField(max_digits=5, decimal_places=2, help_text="Download speed (Mbps)")  # Mbps
+    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price in local currency")  # Price in local currency
 
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.download_speed} Mbps down / {self.upload_speed} Mbps up'
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
@@ -22,7 +20,7 @@ class Client(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.email})'
 
 class Subscription(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)

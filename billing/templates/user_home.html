@@ -4,52 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Home</title>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif; /* Updated font */
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
         .container {
-            width: 80%;
-            margin: 0 auto;
+            width: 90%;
+            margin: 20px auto;
             padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
             color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em; /* Larger heading */
+            font-weight: 700; /* Bold heading */
         }
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            margin: 10px 0;
-            background-color: #007bff;
+            font-size: 16px;
             color: #fff;
-            text-decoration: none;
+            background-color: #007bff;
             border-radius: 5px;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #0056b3;
+            text-decoration: none;
+            margin: 5px;
+            transition: background-color 0.3s ease;
         }
         .logout-btn {
             background-color: #dc3545;
         }
+        .btn:hover {
+            background-color: #0056b3;
+        }
         .logout-btn:hover {
             background-color: #c82333;
+        }
+        .client-list {
+            margin-top: 20px;
+        }
+        .client-list h2 {
+            color: #0277bd; /* Sky blue color for the heading */
+            font-size: 1.5em; /* Larger heading for better visibility */
+            font-weight: 600; /* Semi-bold heading */
+            margin-bottom: 10px;
+        }
+        .client-list table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em; /* Larger font size for better readability */
+        }
+        .client-list th, .client-list td {
+            border: 1px solid #ddd;
+            padding: 12px; /* Increased padding */
+            text-align: left;
+            font-size: 1em; /* Larger font size for better readability */
+            color: #333; /* Darker text color */
+        }
+        .client-list th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 700; /* Bold font for table headers */
+        }
+        .client-list tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .client-list tr:hover {
+            background-color: #e1e1e1;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome, {{ user.username }}!</h1>
-        <p>This is your user home page.</p>
+        <p>This is your user home page. Below you can find the list of registered clients.</p>
         <a href="{% url 'register_client' %}" class="btn">Register New Client</a>
         <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
+
+        <div class="client-list">
+            <h2>Registered Clients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Static IP</th>
+                        <th>Subscription Plan</th>
+                        <th>Start Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.phone_number }}</td>
+                        <td>{{ client.static_ip }}</td>
+                        <td>{{ client.subscription_plan }}</td>
+                        <td>{{ client.start_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No clients found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <footer>
+        <p>&copy; 2024 Patrick Muchiri</p>
+    </footer>
 </body>
 </html>

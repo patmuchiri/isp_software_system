@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Client</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0277bd;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0288d1;
+            outline: none;
+        }
+        .form-group button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            color: #fff;
+            background-color: #0288d1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .form-group button:hover {
+            background-color: #0277bd;
+            transform: scale(1.05);
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #0288d1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #01579b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Client Details</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <div class="form-group">
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+        <a href="{% url 'user_home' %}" class="back-link">Back to Home</a>
+    </div>
+</body>
+</html>
