@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         body {
-            font-family: 'Roboto', sans-serif; /* Updated font */
-            background-color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{% static 'images/user_home.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
         }
@@ -17,7 +20,7 @@
             width: 90%;
             margin: 20px auto;
             padding: 20px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
@@ -25,8 +28,14 @@
             color: #333;
             text-align: center;
             margin-bottom: 20px;
-            font-size: 2em; /* Larger heading */
-            font-weight: 700; /* Bold heading */
+            font-size: 2em;
+            font-weight: 700;
+        }
+        p.description {  /* Add a class for better targeting */
+            font-size: 1.2em; /* Increased font size */
+            color: #444;      /* Darker color for better contrast */
+            text-align: center;
+            font-family: 'Lora', serif; /* Custom font for a more elegant look */
         }
         .btn {
             display: inline-block;
@@ -52,27 +61,27 @@
             margin-top: 20px;
         }
         .client-list h2 {
-            color: #0277bd; /* Sky blue color for the heading */
-            font-size: 1.5em; /* Larger heading for better visibility */
-            font-weight: 600; /* Semi-bold heading */
+            color: #0277bd;
+            font-size: 1.5em;
+            font-weight: 600;
             margin-bottom: 10px;
         }
         .client-list table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1em; /* Larger font size for better readability */
+            font-size: 1em;
         }
         .client-list th, .client-list td {
             border: 1px solid #ddd;
-            padding: 12px; /* Increased padding */
+            padding: 12px;
             text-align: left;
-            font-size: 1em; /* Larger font size for better readability */
-            color: #333; /* Darker text color */
+            font-size: 1em;
+            color: #333;
         }
         .client-list th {
             background-color: #007bff;
             color: #fff;
-            font-weight: 700; /* Bold font for table headers */
+            font-weight: 700;
         }
         .client-list tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -94,7 +103,7 @@
 <body>
     <div class="container">
         <h1>Welcome, {{ user.username }}!</h1>
-        <p>This is your user home page. Below you can find the list of registered clients.</p>
+        <p class="description">This is your user home page. Below you can find the list of registered clients.</p> <!-- Modified text -->
         <a href="{% url 'register_client' %}" class="btn">Register New Client</a>
         <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
 
@@ -135,3 +144,4 @@
     </footer>
 </body>
 </html>
+

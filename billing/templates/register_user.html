@@ -77,6 +77,20 @@
         .message.show {
             display: block;
         }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +102,7 @@
             <button type="submit">Register User</button>
         </form>
         <div class="message" id="success-message">User registered successfully!</div>
-        <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+        <a href="{% if user.is_superuser %}{% url 'admin_dashboard' %}{% else %}{% url 'user_dashboard' %}{% endif %}" class="btn">Back to Dashboard</a>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -89,6 +89,12 @@
 
         <button type="submit">Register Client</button>
     </form>
-    <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+
+    <!-- Back to Dashboard link with conditional check -->
+    {% if user.is_superuser %}
+        <a href="{% url 'admin_dashboard' %}">Back to Admin Dashboard</a>
+    {% else %}
+        <a href="{% url 'user_home' %}">Back to Dashboard</a>
+    {% endif %}
 </body>
 </html>

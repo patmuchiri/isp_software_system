@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django import forms
-from .models import Client, SubscriptionPlan
 from django.contrib import messages
+from .models import Client, SubscriptionPlan
 from .mikrotik_api import MikroTikAPI
 
 # MikroTik credentials
@@ -12,7 +12,7 @@ MIKROTIK_IP = '102.215.32.180'
 MIKROTIK_USERNAME = 'admin'
 MIKROTIK_PASSWORD = 'jishindeushinde#@2024'
 
-# Form for user registration
+# User Registration Form
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -25,11 +25,11 @@ class UserRegistrationForm(forms.ModelForm):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password_confirm = cleaned_data.get("password_confirm")
-
         if password != password_confirm:
             raise forms.ValidationError("Passwords do not match")
 
-# Form for client registration and editing
+
+# Client Registration Form
 class ClientRegistrationForm(forms.ModelForm):
     upload_speed = forms.DecimalField(max_digits=5, decimal_places=2, label="Upload Speed (Mbps)")
     download_speed = forms.DecimalField(max_digits=5, decimal_places=2, label="Download Speed (Mbps)")
@@ -47,11 +47,7 @@ class ClientRegistrationForm(forms.ModelForm):
 
         subscription_plan, created = SubscriptionPlan.objects.get_or_create(
             name=f"{upload_speed} Mbps / {download_speed} Mbps",
-            defaults={
-                'upload_speed': upload_speed,
-                'download_speed': download_speed,
-                'price': price
-            }
+            defaults={'upload_speed': upload_speed, 'download_speed': download_speed, 'price': price}
         )
         client.subscription_plan = subscription_plan
 
@@ -59,33 +55,31 @@ class ClientRegistrationForm(forms.ModelForm):
             client.save()
 
             # Activate client in MikroTik
-            api = MikroTikAPI(
-                host=MIKROTIK_IP,
-                username=MIKROTIK_USERNAME,
-                password=MIKROTIK_PASSWORD
-            )
+            api = MikroTikAPI(host=MIKROTIK_IP, username=MIKROTIK_USERNAME, password=MIKROTIK_PASSWORD)
             api.add_queue(client.static_ip, upload_speed, download_speed)
 
         return client
 
+
+# Landing Page
 def landing(request):
     return render(request, 'landing.html')
 
+
+# Login View
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
-            if user.is_superuser:  # Redirect admin to admin dashboard
-                return redirect('admin_dashboard')
-            else:  # Redirect regular users to user home
-                return redirect('user_home')
+            return redirect('admin_dashboard' if user.is_superuser else 'user_home')
         else:
             messages.error(request, 'Invalid credentials')
     return render(request, 'login.html')
 
+# User Registration
 @login_required
 def register_user(request):
     if request.method == 'POST':
@@ -95,23 +89,27 @@ def register_user(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             messages.success(request, 'User registered successfully.')
-            return redirect('register_user')  # Redirect back to registration page with success parameter
+            return redirect('register_user')
     else:
         form = UserRegistrationForm()
     return render(request, 'register_user.html', {'form': form})
 
+
+# View Users (Admin only)
 @login_required
 def view_users(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
         if user_id:
-            user = User.objects.get(id=user_id)
-            user.delete()
+            User.objects.get(id=user_id).delete()
+            messages.success(request, 'User deleted successfully.')
             return redirect('view_users')
 
     users = User.objects.all()
     return render(request, 'view_users.html', {'users': users})
 
+
+# Client Registration
 @login_required
 def register_client(request):
     if request.method == 'POST':
@@ -119,11 +117,16 @@ def register_client(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Client registered successfully.')
-            return redirect('user_home')  # Redirect to user home
+            if request.user.is_superuser:
+                return redirect('admin_dashboard')  # Admin to admin dashboard
+            else:
+                return redirect('user_home')  # Regular user to user home
     else:
         form = ClientRegistrationForm()
     return render(request, 'register_client.html', {'form': form})
 
+
+# Edit Client
 @login_required
 def edit_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
@@ -137,33 +140,34 @@ def edit_client(request, client_id):
         form = ClientRegistrationForm(instance=client)
     return render(request, 'edit_client.html', {'form': form})
 
+
+# Delete Client
 @login_required
 def delete_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
     if request.method == 'POST':
         # Remove client from MikroTik
-        api = MikroTikAPI(
-            host=MIKROTIK_IP,
-            username=MIKROTIK_USERNAME,
-            password=MIKROTIK_PASSWORD
-        )
+        api = MikroTikAPI(host=MIKROTIK_IP, username=MIKROTIK_USERNAME, password=MIKROTIK_PASSWORD)
         api.remove_queue(client.static_ip)
-
         client.delete()
         messages.success(request, 'Client deleted successfully.')
         return redirect('user_home')
     return render(request, 'confirm_delete.html', {'client': client})
 
+
+# Admin Dashboard
 @login_required
 def admin_dashboard(request):
     return render(request, 'admin_dashboard.html')
 
+
+# User Home Dashboard
 @login_required
 def user_home(request):
-    # Fetch all clients to display on the user home page
     clients = Client.objects.all()
     return render(request, 'user_home.html', {'clients': clients})
 
+# View Clients
 @login_required
 def view_clients(request):
     clients = Client.objects.all()
