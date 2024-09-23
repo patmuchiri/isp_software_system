@@ -96,7 +96,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'phenomventuresltd@gmail.com'
-EMAIL_HOST_PASSWORD = 'Patrick27524311'
+EMAIL_HOST_PASSWORD = 'neop hawb nbxo ckcw'
 DEFAULT_FROM_EMAIL = 'phenomventuresltd@gmail.com'
 
 # Internationalization
