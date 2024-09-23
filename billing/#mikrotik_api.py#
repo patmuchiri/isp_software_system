@@ -43,9 +43,8 @@ class MikroTikAPI:
         try:
             self.connect()
             api = self.connection
-            # Convert Mbps to Kbps
-            upload_speed_kbps = int(float(upload_speed) * 1024)
-            download_speed_kbps = int(float(download_speed) * 1024)
+            upload_speed_kbps = int(float(upload_speed) * 1024)  
+            download_speed_kbps = int(float(download_speed) * 1024)  # Convert Mbps to Kbps
 
             # Add the queue to the MikroTik router
             api.get_resource('/queue/simple').add(
@@ -53,8 +52,7 @@ class MikroTikAPI:
                 target=static_ip,
                 max_limit=f"{upload_speed_kbps}K/{download_speed_kbps}K"
             )
-            print(f"Queue added for {static_ip} with {upload_speed} \
-                    Mbps upload and {download_speed} Mbps download.")
+            print(f"Queue added for {static_ip} with {upload_speed} Mbps upload and {download_speed} Mbps download.")
         except Exception as e:
             print(f"Failed to add queue: {e}")
         finally:
@@ -78,3 +76,4 @@ class MikroTikAPI:
             print(f"Failed to remove queue: {e}")
         finally:
             self.disconnect()
+
