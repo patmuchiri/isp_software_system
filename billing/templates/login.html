@@ -7,68 +7,69 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
+        /* Your existing styles */
         body {
-            font-family: 'Roboto', sans-serif; /* Updated font */
-            background-color: #e0f7fa; /* Light sky blue background */
+            font-family: 'Roboto', sans-serif;
+            background-color: #e0f7fa;
             margin: 0;
             padding: 0;
-            position: relative; /* Required for positioning the button */
+            position: relative;
         }
         .login-container {
             max-width: 400px;
-            margin: 100px auto; /* Increased margin for centering */
-            padding: 30px; /* Increased padding */
+            margin: 100px auto;
+            padding: 30px;
             background: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         h1 {
-            font-size: 2.5em; /* Larger heading */
-            color: #0277bd; /* Sky blue color */
-            margin-bottom: 20px; /* Increased margin */
+            font-size: 2.5em;
+            color: #0277bd;
+            margin-bottom: 20px;
         }
         .form-group {
-            margin-bottom: 20px; /* Increased spacing */
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 8px; /* Increased margin */
-            font-size: 1.1em; /* Larger font size for labels */
-            color: #333; /* Darker color for better contrast */
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #333;
         }
         .form-group input {
             width: 100%;
-            padding: 12px; /* Increased padding */
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 6px; /* Slightly more rounded corners */
-            font-size: 1em; /* Larger font size for input text */
-            color: #333; /* Darker text color for readability */
+            border-radius: 6px;
+            font-size: 1em;
+            color: #333;
         }
         .form-group button {
             width: 100%;
             padding: 12px;
-            background-color: #0288d1; /* Darker sky blue */
+            background-color: #0288d1;
             border: none;
             color: #fff;
-            border-radius: 6px; /* Slightly more rounded corners */
-            font-size: 1.1em; /* Larger font size for button text */
+            border-radius: 6px;
+            font-size: 1.1em;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .form-group button:hover {
-            background-color: #0277bd; /* Slightly darker on hover */
+            background-color: #0277bd;
         }
         .error-message {
-            color: #f44336; /* Red color for errors */
-            font-size: 1em; /* Increased font size for visibility */
-            margin-bottom: 20px; /* Increased spacing */
+            color: #f44336;
+            font-size: 1em;
+            margin-bottom: 20px;
         }
         .home-button {
             position: absolute;
             bottom: 20px;
             right: 20px;
-            background-color: #ff5722; /* Bright orange */
+            background-color: #ff5722;
             color: #fff;
             padding: 10px 20px;
             border: none;
@@ -79,8 +80,19 @@
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .home-button:hover {
-            background-color: #e64a19; /* Darker orange on hover */
+            background-color: #e64a19;
             transform: scale(1.05);
+        }
+        .forgot-password {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .forgot-password a {
+            color: #0288d1;
+            text-decoration: none;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -108,6 +120,9 @@
                 <button type="submit">Login</button>
             </div>
         </form>
+        <div class="forgot-password">
+            <a href="{% url 'password_reset' %}">Forgot your password?</a>
+        </div>
     </div>
     <a href="{% url 'landing' %}" class="home-button">Home</a>
 </body>
