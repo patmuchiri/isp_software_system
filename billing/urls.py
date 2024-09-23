@@ -5,16 +5,24 @@ from .views import landing, login_view, register_user, register_client, admin_da
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+    # Home and auth-related paths
     path('', views.landing, name='landing'),
     path('login/', views.login_view, name='login'),
+    path('accounts/login/', views.login_view, name='accounts_login'),  # Added for accounts/login compatibility
     path('register/', register_user, name='register_user'),
     path('register_client/', register_client, name='register_client'),
+    
+    # Client management paths
     path('edit_client/<int:client_id>/', views.edit_client, name='edit_client'),
     path('delete_client/<int:client_id>/', views.delete_client, name='delete_client'),
+    
+    # Dashboard and user views
     path('admin_dashboard/', admin_dashboard, name='admin_dashboard'),
     path('user_home/', views.user_home, name='user_home'),
     path('view_clients/', view_clients, name='view_clients'),
     path('view_users/', views.view_users, name='view_users'),
+
+    # Logout
     path('logout/', LogoutView.as_view(next_page='landing'), name='logout'),
 
     # Password reset URLs using Django's built-in views
