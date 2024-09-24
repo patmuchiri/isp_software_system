@@ -23,7 +23,7 @@
             left: 0;
             width: 250px;
             height: 100%;
-            background-color: rgba(0, 188, 212, 0.8); /* Sky blue background */
+            background-color: rgba(0, 188, 212, 0.8);
             color: #fff;
             padding: 20px;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
@@ -47,7 +47,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         .sidebar a:hover {
-            background-color: #ff5722; /* Orange on hover */
+            background-color: #ff5722;
             color: #fff;
         }
         .main-content {
@@ -55,7 +55,7 @@
             padding: 20px;
         }
         .header {
-            background: linear-gradient(45deg, #03a9f4, #e91e63); /* Sky blue to red gradient */
+            background: linear-gradient(45deg, #03a9f4, #e91e63);
             color: #fff;
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -83,24 +83,24 @@
             margin-left: 20px;
         }
         .header nav a:hover {
-            color: #ffeb3b; /* Bright yellow */
+            color: #ffeb3b;
         }
         .intro {
             text-align: center;
             padding: 60px;
-            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             margin: 40px auto;
             max-width: 1200px;
             position: relative;
-            border: 2px solid #03a9f4; /* Sky blue border */
+            border: 2px solid #03a9f4;
         }
         .intro h2 {
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #ff5722; /* Orange */
+            color: #ff5722;
             font-family: 'Poppins', sans-serif;
         }
         .intro p {
@@ -120,7 +120,7 @@
             width: 220px;
             padding: 20px;
             background: #fff;
-            border: 2px solid #03a9f4; /* Sky blue border */
+            border: 2px solid #03a9f4;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -132,7 +132,7 @@
         }
         .feature-box h3 {
             font-size: 1.5rem;
-            color: #e91e63; /* Red */
+            color: #e91e63;
             margin: 10px 0;
         }
         .feature-box p {
@@ -144,15 +144,50 @@
             padding: 12px 24px;
             font-size: 1.1rem;
             color: #fff;
-            background-color: #03a9f4; /* Sky blue */
+            background-color: #03a9f4;
             border-radius: 6px;
             text-decoration: none;
             transition: background-color 0.3s ease, transform 0.3s ease;
             margin: 10px;
         }
         .btn-primary:hover {
-            background-color: #0288d1; /* Darker sky blue */
+            background-color: #0288d1;
             transform: scale(1.05);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -161,6 +196,7 @@
         <h2>Menu</h2>
         <a href="{% url 'landing' %}" class="btn-primary">Home</a>
         <a href="{% url 'login' %}" class="btn-primary">Login</a>
+        <button id="aboutBtn" class="btn-primary">About</button>
     </aside>
 
     <div class="main-content">
@@ -196,6 +232,36 @@
             <a href="{% url 'login' %}" class="btn-primary">Get Started</a>
         </section>
     </div>
+
+    <!-- The Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>About This Project</h2>
+            <p><strong>Description:</strong> Working in a tech company whose mandate is mainly internet service provision, we experienced many problems in the management of client subscriptions, payments, and control of their internet services. This led to the development of an application that manages all these tasks in one place, allowing our team to work more efficiently and our clients to enjoy a better service experience.</p>
+            <p><strong>Key Features:</strong> The application allows for easy management of subscriptions, internet service control, and seamless integration with payment systems like MPESA, ensuring a holistic approach to ISP management.</p>
+            <h3>Meet the Team:</h3>
+            <ul>
+                <li><strong>Patrick Muchiri</strong> - <a href="https://www.linkedin.com/in/patrick-muchiri" target="_blank">LinkedIn</a> | <a href="https://github.com/patrickmuchiri" target="_blank">GitHub</a></li>
+                <li><strong>Ndukwe Ikechi</strong> - <a href="https://www.linkedin.com/in/ikechi-ndukwe" target="_blank">LinkedIn</a> | <a href="https://github.com/Bayzman" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('aboutBtn').onclick = function() {
+            document.getElementById('infoModal').style.display = 'block';
+        }
+
+        document.getElementsByClassName('close')[0].onclick = function() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('infoModal')) {
+                document.getElementById('infoModal').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
-
