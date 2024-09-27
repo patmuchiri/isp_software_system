@@ -1,3 +1,4 @@
+# ![Project Screenshot](https://github.com/patmuchiri/isp_software_system/blob/master/ISP-Software-System-09-27-2024_09_35_AM.png)
 # ISP Software System
 # Introduction
 # The ISP Software System is a comprehensive solution designed to manage client subscriptions, internet service controls, and payment integrations for Internet Service Providers (ISPs). Our application provides seamless management of clients’ internet services and integrates with MPESA for secure and efficient payment processing. The system also includes an intuitive dashboard for monitoring, advanced bandwidth management with MikroTik integration, and automated reminders for subscription expirations.
