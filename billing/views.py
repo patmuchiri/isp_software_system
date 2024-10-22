@@ -7,6 +7,10 @@ from django.contrib import messages
 from .models import Client, SubscriptionPlan
 from .mikrotik_api import MikroTikAPI
 from .forms import ClientRegistrationForm
+from django.core.mail import send_mail
+from django_otp.models import Device
+from django.contrib.auth.decorators import login_required
+import pyotp
 
 # MikroTik credentials
 MIKROTIK_IP = '102.215.32.180'
@@ -163,3 +167,28 @@ def view_clients(request):
     clients = Client.objects.all()
     return render(request, 'view_clients.html', {'clients': clients})
 
+@login_required
+def send_otp(request):
+    user = request.user
+    device = Device.objects.get_or_create(user=user)[0]
+    totp = pyotp.TOTP(pyotp.random_base32(), interval=300)  # 5 minutes validity
+    device.generate_challenge()
+    send_mail(
+        'Your OTP for email verification',
+        f'Your OTP is: {totp.now()}',  # Send OTP via email
+        'your_email@example.com',
+        [user.email],
+        fail_silently=False,
+    )
+    return redirect('verify_otp')
+
+def verify_otp(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        user = request.user
+        device = Device.objects.get(user=user)
+        if device.verify_token(otp):
+            return redirect('home')
+        else:
+            return render(request, 'verify_otp.html', {'error': 'Invalid OTP'})
+    return render(request, 'verify_otp.html')

@@ -3,6 +3,8 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings  # Added for serving static files
 from django.conf.urls.static import static  # Added for serving static files
 from django.contrib.auth.views import LogoutView
+from django.urls import path
+from .views import send_otp, verify_otp
 from . import views
 from .views import landing, login_view, register_user, register_client, admin_dashboard, view_clients, edit_client, delete_client
 
@@ -32,6 +34,8 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('send-otp/', send_otp, name='send_otp'),
+    path('verify-otp/', verify_otp, name='verify_otp'),
 ]
 
 # Serving static files during development
