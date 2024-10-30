@@ -42,16 +42,14 @@ class MikroTikAPI:
             self.connect()
         if self.connection:
             try:
-                # Convert Mbps to Kbps
-                upload_speed_kbps = int(float(upload_speed) * 1024)
-                download_speed_kbps = int(float(download_speed) * 1024)
-
+                bandwidth = int(upload_speed)
+                bandwidthformat = f"{bandwidth}M/{bandwidth}"
                 # Add the queue on the MikroTik router
                 api = self.connection
                 api.get_resource('/queue/simple').add(
                     name=f"client_{static_ip}",
                     target=static_ip,
-                    max_limit=f"{upload_speed_kbps}K/{download_speed_kbps}K"
+                    max_limit = bandwidthformat
                 )
                 print(f"Queue added for {static_ip} with {upload_speed} Mbps upload and {download_speed} Mbps download.")
             except Exception as e:

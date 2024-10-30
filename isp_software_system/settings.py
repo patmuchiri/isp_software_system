@@ -67,9 +67,9 @@ WSGI_APPLICATION = 'isp_software_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'isp_software_system_db',
-        'USER': 'admin',
-        'PASSWORD': '#@Phenom2023',
+        'NAME': 'phenomve_app',
+        'USER': 'phenomve_root',
+        'PASSWORD': '#@Phenom2025',
         'HOST': 'localhost',
         'PORT': '3306',
     }

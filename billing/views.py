@@ -114,6 +114,7 @@ def view_users(request):
 @login_required
 def register_client(request):
     if request.method == 'POST':
+        print (request.POST)
         form = ClientRegistrationForm(request.POST)
         if form.is_valid():
             form.save()

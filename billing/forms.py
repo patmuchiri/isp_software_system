@@ -14,12 +14,11 @@ class ClientRegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         client = super().save(commit=False)
         upload_speed = self.cleaned_data.get('upload_speed')
-        download_speed = self.cleaned_data.get('download_speed')
         price = self.cleaned_data.get('price')
 
         subscription_plan, created = SubscriptionPlan.objects.get_or_create(
-            name=f"{upload_speed} Mbps / {download_speed} Mbps",
-            defaults={'upload_speed': upload_speed, 'download_speed': download_speed, 'price': price}
+            name=f"{upload_speed} Mbps"
+            defaults={'upload_speed': upload_speed,'price': price}
         )
         client.subscription_plan = subscription_plan
 

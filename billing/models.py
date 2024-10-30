@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class SubscriptionPlan(models.Model):
     name = models.CharField(max_length=100)
     upload_speed = models.DecimalField(max_digits=5, decimal_places=2, help_text="Upload speed (Mbps)")  # Mbps
-    download_speed = models.DecimalField(max_digits=5, decimal_places=2, help_text="Download speed (Mbps)")  # Mbps
+    download_speed = models.DecimalField(max_digits=5, decimal_places=2, help_text="Download speed (Mbps)", null=True)  # Mbps
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price in local currency")  # Price in local currency
 
     def __str__(self):
